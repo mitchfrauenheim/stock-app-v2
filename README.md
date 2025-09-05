@@ -24,8 +24,8 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 To learn more about Next.js, take a look at the following resources:
 
--   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
--   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
@@ -37,25 +37,25 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## TODO:
 
--   [x] Install Tailwind (was offered as a bundled installation/config with next)
--   [ ] Take Next.js [starter course](https://nextjs.org/learn)
--   [ ] Configure PostgreSQL + Prisma on Neon
-    -   Maybe no Prisma, could be good to write raw SQL
--   [ ] Determine database schema
--   [ ] Wireframe frontend
--   [ ] Get login/auth, database, external API calls working
--   [ ] Begin frontend developmet
-    -   [ ] Choose charting library (recharts, charts.js, victory)
--   [ ] Implement testing for PRs (CI/CD pipeline)
--   [ ] Choose / configure testing suite
--   [ ] Deploy on Vercel
+- [x] Install Tailwind (was offered as a bundled installation/config with next)
+- [x] Take Next.js [starter course](https://nextjs.org/learn)
+- [ ] Configure PostgreSQL + Prisma on Neon
+  - Maybe no Prisma, could be good to write raw SQL
+- [ ] Determine database schema
+- [ ] Wireframe frontend
+- [ ] Get login/auth, database, external API calls working
+- [ ] Begin frontend developmet
+  - [ ] Choose charting library (recharts, charts.js, victory)
+- [ ] Implement testing for PRs (CI/CD pipeline)
+- [ ] Choose / configure testing suite
+- [ ] Deploy on Vercel
 
 ### Stack
 
--   Next.js / React
--   Tailwind
-    -   PostCSS for processing
--   Postgres + Prisma, hosted on Neon
--   NextAuth.js for auth
--   Recharts for visualization
--   Finnhub for stock data
+- Next.js / React
+- Tailwind
+  - PostCSS for processing
+- Postgres + Prisma, hosted on Neon
+- NextAuth.js for auth
+- Recharts for visualization
+- Finnhub for stock data
