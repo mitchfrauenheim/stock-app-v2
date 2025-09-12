@@ -39,7 +39,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 - [x] Install Tailwind (was offered as a bundled installation/config with next)
 - [x] Take Next.js [starter course](https://nextjs.org/learn)
-- [ ] Configure PostgreSQL + Prisma on Neon
+- [x] Configure PostgreSQL on Neon
+- [ ] Install Prisma
   - Maybe no Prisma, could be good to write raw SQL
 - [ ] Determine database schema
 - [ ] Wireframe frontend
