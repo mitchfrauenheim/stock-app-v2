@@ -27,9 +27,9 @@ async function seedStocks() {
   `;
 }
 
-async function seedPortfolios() {
+async function seedHoldings() {
   await sql`
-    CREATE TABLE IF NOT EXISTS portfolios (
+    CREATE TABLE IF NOT EXISTS holdings (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       user_id UUID REFERENCES users(id) ON DELETE CASCADE,
       stock_id UUID REFERENCES stocks(id) ON DELETE CASCADE,
@@ -40,4 +40,13 @@ async function seedPortfolios() {
     )
 
   `;
+}
+
+export async function GET() {
+  try {
+    await sql.begin(() => [seedUsers(), seedStocks(), seedHoldings()]);
+    return Response.json({ message: "Database seeded successfully" });
+  } catch (error) {
+    return Response.json({ error }, { status: 500 });
+  }
 }
