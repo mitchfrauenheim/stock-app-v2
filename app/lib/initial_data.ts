@@ -45,10 +45,23 @@ export const users = [
 
 export const stocks = [
   {
-    user_id: users[0].id,
+    id: "E89A84D6-A4D3-4A8B-AB03-B80EEB390887",
     symbol: "C",
-    name: "",
-    share_price: 0,
-    shares: 0,
+    name: "Citigroup",
+  },
+  {
+    id: "F36F3779-8B2A-4C02-B21C-98C344928DA2",
+    symbol: "SHOP",
+    name: "Shopify",
+  },
+  {
+    id: "31494FA9-A0A7-47E1-8E48-25E925AD2B98",
+    symbol: "TMUS",
+    name: "T-Mobile US",
+  },
+  {
+    id: "ED500601-BB46-4B34-8D4B-15BDB11DCAA3",
+    symbol: "TSLA",
+    name: "Tesla",
   },
 ];
