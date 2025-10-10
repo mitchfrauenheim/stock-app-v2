@@ -64,4 +64,99 @@ export const stocks = [
     symbol: "TSLA",
     name: "Tesla",
   },
+  {
+    id: "92CD6A3A-492E-4727-BFAA-63EC35A5B955",
+    symbol: "AMD",
+    name: "Advanced Micro Devices",
+  },
+  {
+    id: "04A9A852-D6D3-4EC9-9BC3-789F75C6FDD4",
+    symbol: "NVDA",
+    name: "NVIDIA",
+  },
+  {
+    id: "9AC8967C-E60A-4629-A0D9-3D81B194586C",
+    symbol: "TSM",
+    name: "Taiwan Semiconductor",
+  },
+  {
+    id: "6C23D97B-5C27-4358-A3EC-BFA2010FBB81",
+    symbol: "JPM",
+    name: "JPMorgan Chase",
+  },
+  {
+    id: "8E787DD0-EBFF-4108-B619-33C3116F5886",
+    symbol: "SNOW",
+    name: "Snowflake",
+  },
+  {
+    id: "AC77D8C6-52FD-47C3-AB7D-45FE471E1F9A",
+    symbol: "BRK.B",
+    name: "Berkshire Hathaway",
+  },
+  {
+    id: "2A8A150F-AB16-4A18-8067-1513CF03499C",
+    symbol: "ERJ",
+    name: "Embraer S.A.",
+  },
+  {
+    id: "C443A7E6-E47C-4F0B-913A-A5DAC7C41F6A",
+    symbol: "V",
+    name: "Visa",
+  },
+  {
+    id: "9CB17B03-3B4A-4F2E-9A4E-E5D4161AE657",
+    symbol: "AMZN",
+    name: "Amazon",
+  },
+  {
+    id: "E1507A2C-BF4B-4D11-BE5D-778D083D6ED4",
+    symbol: "DIS",
+    name: "Disney",
+  },
+  {
+    id: "97C6B69C-F907-4419-A203-1FD48361415E",
+    symbol: "HWM",
+    name: "Howmet Aerospace",
+  },
+  {
+    id: "C1BD7363-DAE6-4C93-987F-BF7DE3C211F1",
+    symbol: "MSFT",
+    name: "Microsoft",
+  },
+  {
+    id: "808F0CA0-55A1-4D72-87F5-33948446AB4D",
+    symbol: "GOOGL",
+    name: "Alphabet",
+  },
+  {
+    id: "FF2DCB5A-385A-4382-BD86-59AE6898423D",
+    symbol: "INTC",
+    name: "Intel",
+  },
+  {
+    id: "DD333933-DFD3-4A42-94AC-7781BEA9C82E",
+    symbol: "META",
+    name: "Meta",
+  },
+  {
+    id: "CE87263C-BAC8-4796-8F5B-74A7CF536584",
+    symbol: "PYPL",
+    name: "PayPal",
+  },
+  {
+    id: "B838D9DB-2D98-46BC-9A62-FCEC39B49DA7",
+    symbol: "CETXP",
+    name: "Cemtrex",
+  },
+  {
+    id: "1A5D7D9B-19C8-4DC0-B041-05BFFDCFBBA9",
+    symbol: "LWLG",
+    name: "Lightwave Logic",
+  },
+  {
+    id: "272FDF8E-33C8-449E-84F6-613211D6CEE9",
+    symbol: "NSA",
+    name: "National Storage Affiliates",
+  },
 ];
