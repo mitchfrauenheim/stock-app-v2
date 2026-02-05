@@ -1,3 +1,5 @@
+import { stocks, users } from "@/lib/initial_data";
+import bcrypt from "bcrypt";
 import postgres from "postgres";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
@@ -13,6 +15,19 @@ async function seedUsers() {
       created_at TIMESTAMP DEFAULT now()
     );
   `;
+
+  const insertedUsers = Promise.all(
+    users.map(async (user) => {
+      const hashedPassword = await bcrypt.hash(user.password, 10);
+      return sql`
+        INSERT INTO users (id, name, email, password)
+        VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword})
+        ON CONFLICT (id) DO NOTHING;
+      `;
+    }),
+  );
+
+  return insertedUsers;
 }
 
 async function seedStocks() {
@@ -25,6 +40,18 @@ async function seedStocks() {
       created_at TIMESTAMP DEFAULT now()
     );
   `;
+
+  const insertedStocks = Promise.all(
+    stocks.map(
+      (stock) => sql`
+        INSERT INTO stocks (id, symbol, name)
+        VALUES (${stock.id}, ${stock.symbol}, ${stock.name})
+        ON CONFLICT (id) DO NOTHING;
+      `,
+    ),
+  );
+
+  return insertedStocks;
 }
 
 async function seedHoldings() {
@@ -37,8 +64,7 @@ async function seedHoldings() {
       buy_cost NUMERIC(18,2),
       created_at TIMESTAMP DEFAULT now(),
       UNIQUE(user_id, stock_id)
-    )
-
+    );
   `;
 }
 
