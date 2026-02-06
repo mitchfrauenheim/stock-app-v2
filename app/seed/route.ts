@@ -61,7 +61,7 @@ async function seedHoldings() {
       user_id UUID REFERENCES users(id) ON DELETE CASCADE,
       stock_id UUID REFERENCES stocks(id) ON DELETE CASCADE,
       shares NUMERIC(18,10) NOT NULL,
-      buy_cost NUMERIC(18,2) NOT NULL,
+      buy_cost NUMERIC(18,6) NOT NULL,
       created_at TIMESTAMP DEFAULT now(),
       UNIQUE(user_id, stock_id)
     );
