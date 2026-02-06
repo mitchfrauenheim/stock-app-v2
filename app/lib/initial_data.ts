@@ -173,6 +173,46 @@ export const stocks: StockData[] = [
     symbol: "NSA",
     name: "National Storage Affiliates",
   },
+  {
+    id: "856AD44A-CB9E-4417-AA5A-7C860F606D0F",
+    symbol: "AVGO",
+    name: "Broadcom",
+  },
+  {
+    id: "DC32DA68-99A8-409C-A0D5-230568D0910E",
+    symbol: "GD",
+    name: "General Dynamics",
+  },
+  {
+    id: "72FF9B57-834E-4929-B7A9-9D044E5AB665",
+    symbol: "LLY",
+    name: "Eli Lilly",
+  },
+  {
+    id: "CFB61525-8759-4176-A67F-FAE6317D0AED",
+    symbol: "SNEX",
+    name: "StoneX",
+  },
+  {
+    id: "7B916652-268B-4847-8026-7A94680B73A9",
+    symbol: "APPL",
+    name: "Apple",
+  },
+  {
+    id: "FFA1E756-D7D6-4DCE-9952-95C1A65A09F9",
+    symbol: "CI",
+    name: "Cigna",
+  },
+  {
+    id: "971F0EB0-E04A-421E-BAD0-C85887D42561",
+    symbol: "PGR",
+    name: "Progressive",
+  },
+  {
+    id: "DA95B04C-21D7-4821-B6BC-C37F13B269B4",
+    symbol: "PRU",
+    name: "Prudential Financial",
+  },
 ];
 
 export const holdings: HoldingData[] = [
