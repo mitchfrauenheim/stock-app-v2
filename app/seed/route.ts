@@ -4,7 +4,7 @@ import postgres from "postgres";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
-async function seedUsers() {
+async function seedUsers(): Promise<void> {
   await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
   await sql`
     CREATE TABLE IF NOT EXISTS users (
@@ -16,21 +16,19 @@ async function seedUsers() {
     );
   `;
 
-  const insertedUsers = await Promise.all(
+  await Promise.all(
     users.map(async (user) => {
       const hashedPassword = await bcrypt.hash(user.password, 10);
       return sql`
-        INSERT INTO users (id, name, email, password)
+        INSERT INTO users (id, name, email, password_hash)
         VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword})
         ON CONFLICT (id) DO NOTHING;
       `;
     }),
   );
-
-  return insertedUsers;
 }
 
-async function seedStocks() {
+async function seedStocks(): Promise<void> {
   await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
   await sql`
     CREATE TABLE IF NOT EXISTS stocks (
@@ -41,7 +39,7 @@ async function seedStocks() {
     );
   `;
 
-  const insertedStocks = await Promise.all(
+  await Promise.all(
     stocks.map(
       (stock) => sql`
         INSERT INTO stocks (id, symbol, name)
@@ -50,11 +48,9 @@ async function seedStocks() {
       `,
     ),
   );
-
-  return insertedStocks;
 }
 
-async function seedHoldings() {
+async function seedHoldings(): Promise<void> {
   await sql`
     CREATE TABLE IF NOT EXISTS holdings (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -67,7 +63,7 @@ async function seedHoldings() {
     );
   `;
 
-  const insertedHoldings = await Promise.all(
+  await Promise.all(
     holdings.flatMap((holding) =>
       holding.stocks.map(
         (stock) =>
@@ -83,11 +79,9 @@ async function seedHoldings() {
       ),
     ),
   );
-
-  return insertedHoldings;
 }
 
-async function createTransactions() {
+async function createTransactions(): Promise<void> {
   await sql`
     CREATE TABLE IF NOT EXISTS transactions (
       id UUID PRIMARY KEY DEFAULT  gen_random_uuid(),
@@ -97,15 +91,15 @@ async function createTransactions() {
       shares NUMERIC(18,6) NOT NULL,
       price_per_share NUMERIC(18,2) NOT NULL,
       total_value NUMERIC(18,2) NOT NULL,
-      transaction_date DATE NOTE NULL,
-      created_at TIMESTAMP DEFAULT now(),
+      transaction_date DATE NOT NULL,
+      created_at TIMESTAMP DEFAULT now()
     );
 
     CREATE INDEX idx_transactions_user ON transactions(user_id, transaction_date);
   `;
 }
 
-async function createPortfolioSnapshots() {
+async function createPortfolioSnapshots(): Promise<void> {
   await sql`
     CREATE TABLE IF NOT EXISTS portfolio_snapshots (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -121,7 +115,7 @@ async function createPortfolioSnapshots() {
   `;
 }
 
-async function createStockPrices() {
+async function createStockPrices(): Promise<void> {
   await sql`
     CREATE TABLE IF NOT EXISTS stock_prices (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -138,14 +132,13 @@ async function createStockPrices() {
 
 export async function GET() {
   try {
-    await sql.begin(() => [
-      seedUsers(),
-      seedStocks(),
-      seedHoldings(),
-      createTransactions(),
-      createPortfolioSnapshots(),
-      createStockPrices(),
-    ]);
+    await seedUsers();
+    await seedStocks();
+    await seedHoldings();
+    await createTransactions();
+    await createPortfolioSnapshots();
+    await createStockPrices();
+
     return Response.json({ message: "Database seeded successfully" });
   } catch (error) {
     return Response.json({ error }, { status: 500 });
