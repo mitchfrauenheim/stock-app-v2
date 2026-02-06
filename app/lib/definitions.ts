@@ -41,3 +41,24 @@ export type StockPrice = {
   close_price: number;
   created_at: string;
 };
+
+export type Transactions = {
+  id: string;
+  user_id: string;
+  stock_id: string;
+  transaction_type: "buy" | "sell";
+  shares: number;
+  price_per_share: number;
+  total_value: number;
+  transaction_date: string;
+  created_at: string;
+};
+
+export type HoldingData = {
+  email: string;
+  stocks: {
+    symbol: string;
+    shares: number;
+    buy_cost: number; // <-- No question mark, so it's always a number
+  }[];
+};

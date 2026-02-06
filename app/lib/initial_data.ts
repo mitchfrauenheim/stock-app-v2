@@ -1,3 +1,5 @@
+import { HoldingData } from "./definitions";
+
 export const users = [
   {
     id: "A74D0762-DEA7-43F8-A3E3-BFAADA4F401C",
@@ -32,7 +34,7 @@ export const users = [
   {
     id: "0B63EE39-7286-496A-BD3B-A074BFF64054",
     name: "Dan Frauenheim",
-    email: "",
+    email: "dan.frauenheim@outlook.com",
     password: "pass6",
   },
   {
@@ -159,4 +161,36 @@ export const stocks = [
     symbol: "NSA",
     name: "National Storage Affiliates",
   },
+];
+
+export const holdings: HoldingData[] = [
+  {
+    email: "mitch.frauenheim@wustl.edu",
+    stocks: [
+      {
+        symbol: "C",
+        shares: 42.6584762392,
+        buy_cost: 117.21,
+      },
+      {
+        symbol: "SHOP",
+        shares: 30.8071472582,
+        buy_cost: 162.3,
+      },
+      {
+        symbol: "TMUS",
+        shares: 24.6889196129,
+        buy_cost: 202.52,
+      },
+      {
+        symbol: "TSLA",
+        shares: 10.9308731581,
+        buy_cost: 457.42,
+      },
+    ],
+  },
+  // {
+  //   email: "wfraue@me.com",
+  //   stocks: [{}],
+  // },
 ];

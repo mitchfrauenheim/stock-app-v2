@@ -1,4 +1,4 @@
-import { stocks, users } from "@/lib/initial_data";
+import { holdings, stocks, users } from "@/lib/initial_data";
 import bcrypt from "bcrypt";
 import postgres from "postgres";
 
@@ -16,7 +16,7 @@ async function seedUsers() {
     );
   `;
 
-  const insertedUsers = Promise.all(
+  const insertedUsers = await Promise.all(
     users.map(async (user) => {
       const hashedPassword = await bcrypt.hash(user.password, 10);
       return sql`
@@ -41,7 +41,7 @@ async function seedStocks() {
     );
   `;
 
-  const insertedStocks = Promise.all(
+  const insertedStocks = await Promise.all(
     stocks.map(
       (stock) => sql`
         INSERT INTO stocks (id, symbol, name)
@@ -60,11 +60,48 @@ async function seedHoldings() {
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       user_id UUID REFERENCES users(id) ON DELETE CASCADE,
       stock_id UUID REFERENCES stocks(id) ON DELETE CASCADE,
-      shares NUMERIC(18,6) NOT NULL,
-      buy_cost NUMERIC(18,2),
+      shares NUMERIC(18,10) NOT NULL,
+      buy_cost NUMERIC(18,2) NOT NULL,
       created_at TIMESTAMP DEFAULT now(),
       UNIQUE(user_id, stock_id)
     );
+  `;
+
+  const insertedHoldings = await Promise.all(
+    holdings.flatMap((holding) =>
+      holding.stocks.map(
+        (stock) =>
+          sql`
+          INSERT INTO holdings (user_id, stock_id, shares, buy_cost)
+          VALUES (
+            (SELECT id FROM users WHERE email = ${holding.email}),
+            (SELECT id FROM stocks WHERE symbol = ${stock.symbol}),
+            ${stock.shares},
+            ${stock.buy_cost}
+          )
+        `,
+      ),
+    ),
+  );
+
+  return insertedHoldings;
+}
+
+async function createTransactions() {
+  await sql`
+    CREATE TABLE IF NOT EXISTS transactions (
+      id UUID PRIMARY KEY DEFAULT  gen_random_uuid(),
+      user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+      stock_id UUID REFERENCES stocks(id) ON DELETE CASCADE,
+      transaction_type TEXT NOT NULL,
+      shares NUMERIC(18,6) NOT NULL,
+      price_per_share NUMERIC(18,2) NOT NULL,
+      total_value NUMERIC(18,2) NOT NULL,
+      transaction_date DATE NOTE NULL,
+      created_at TIMESTAMP DEFAULT now(),
+    );
+
+    CREATE INDEX idx_transactions_user ON transactions(user_id, transaction_date);
   `;
 }
 
@@ -105,6 +142,7 @@ export async function GET() {
       seedUsers(),
       seedStocks(),
       seedHoldings(),
+      createTransactions(),
       createPortfolioSnapshots(),
       createStockPrices(),
     ]);
