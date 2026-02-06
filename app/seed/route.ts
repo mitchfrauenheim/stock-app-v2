@@ -68,9 +68,46 @@ async function seedHoldings() {
   `;
 }
 
+async function createPortfolioSnapshots() {
+  await sql`
+    CREATE TABLE IF NOT EXISTS portfolio_snapshots (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+      snapshot_date DATE NOT NULL,
+      total_value NUMERIC(18,2) NOT NULL,
+      cash_balance NUMERIC(18,2) DEFAULT 0,
+      created_at TIMESTAMP DEFAULT now(),
+      UNIQUE(user_id, snapshot_date)
+    );
+
+    CREATE INDEX idx_snapshots_user_date ON portfolio_snapshots(user_id, snapshot_date);
+  `;
+}
+
+async function createStockPrices() {
+  await sql`
+    CREATE TABLE IF NOT EXISTS stock_prices (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      stock_id UUID REFERENCES stocks(id) ON DELETE CASCADE,
+      price_date DATE NOT NULL,
+      close_price NUMERIC(18,2) NOT NULL,
+      created_at TIMESTAMP DEFAULT now(),
+      UNIQUE(stock_id, price_date)
+    );
+    
+    CREATE INDEX idx_prices_stock_date ON stock_prices(stock_id, price_date);
+  `;
+}
+
 export async function GET() {
   try {
-    await sql.begin(() => [seedUsers(), seedStocks(), seedHoldings()]);
+    await sql.begin(() => [
+      seedUsers(),
+      seedStocks(),
+      seedHoldings(),
+      createPortfolioSnapshots(),
+      createStockPrices(),
+    ]);
     return Response.json({ message: "Database seeded successfully" });
   } catch (error) {
     return Response.json({ error }, { status: 500 });
