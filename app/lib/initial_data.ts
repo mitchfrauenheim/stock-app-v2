@@ -110,7 +110,7 @@ export const stocks: StockData[] = [
   },
   {
     id: "05d30d44-89f2-4a02-b525-f4452b217977",
-    symbol: "ERJ",
+    symbol: "EMBJ",
     name: "Embraer S.A.",
   },
   {
@@ -212,6 +212,31 @@ export const stocks: StockData[] = [
     id: "9a6c1741-6fb1-4926-84ef-0f131c9fe37e",
     symbol: "PRU",
     name: "Prudential Financial",
+  },
+  {
+    id: "8f9ca5fa-9f58-4e76-8989-bef2e783bde9",
+    symbol: "MU",
+    name: "Micron Technology",
+  },
+  {
+    id: "a6fcc521-856b-465e-b618-44165d561cfe",
+    symbol: "RKLB",
+    name: "Rocket Lab",
+  },
+  {
+    id: "915ebbe1-0a95-471b-8fb0-a0774d25f52b",
+    symbol: "KTB",
+    name: "Kontoor Brands",
+  },
+  {
+    id: "a1a2495c-3d5d-4083-8e21-0e270da77fd9",
+    symbol: "DLPTF",
+    name: "Liaoning Port Co.",
+  },
+  {
+    id: "29236c12-74d2-46a5-a3b2-a1c0422c628b",
+    symbol: "SELX",
+    name: "Semilux International",
   },
 ];
 
