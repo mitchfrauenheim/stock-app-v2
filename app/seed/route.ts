@@ -94,7 +94,9 @@ async function createTransactions(): Promise<void> {
       transaction_date DATE NOT NULL,
       created_at TIMESTAMP DEFAULT now()
     );
+  `;
 
+  await sql`
     CREATE INDEX idx_transactions_user ON transactions(user_id, transaction_date);
   `;
 }
@@ -110,7 +112,9 @@ async function createPortfolioSnapshots(): Promise<void> {
       created_at TIMESTAMP DEFAULT now(),
       UNIQUE(user_id, snapshot_date)
     );
+  `;
 
+  await sql`
     CREATE INDEX idx_snapshots_user_date ON portfolio_snapshots(user_id, snapshot_date);
   `;
 }
@@ -125,7 +129,9 @@ async function createStockPrices(): Promise<void> {
       created_at TIMESTAMP DEFAULT now(),
       UNIQUE(stock_id, price_date)
     );
-    
+  `;
+
+  await sql`
     CREATE INDEX idx_prices_stock_date ON stock_prices(stock_id, price_date);
   `;
 }
