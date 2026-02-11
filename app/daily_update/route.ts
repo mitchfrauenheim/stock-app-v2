@@ -6,6 +6,10 @@ async function dailyStockPriceUpdate(): Promise<void> {
 
 export function GET(request: Request): Response {
   const authHeader = request.headers.get("authorization");
+
+  console.log("Auth header received:", authHeader);
+  console.log("Expected:", `Bearer ${process.env.CRON_SECRET}`);
+
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
