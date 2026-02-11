@@ -136,7 +136,7 @@ async function createStockPrices(): Promise<void> {
   `;
 }
 
-export async function GET() {
+export async function GET(): Promise<Response> {
   try {
     await seedUsers();
     await seedStocks();

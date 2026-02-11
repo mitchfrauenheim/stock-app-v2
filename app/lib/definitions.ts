@@ -65,7 +65,7 @@ export type Transactions = {
   id: string;
   user_id: string;
   stock_id: string;
-  transaction_type: "buy" | "sell";
+  transaction_type: "BUY" | "SELL";
   shares: number;
   price_per_share: number;
   total_value: number;
