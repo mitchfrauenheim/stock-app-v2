@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/app/api/daily_update",
+      "path": "/api/daily_update",
       "schedule": "3 23 * * 1-5"
     }
   ]
