@@ -1,3 +1,3 @@
-export function GET() {
-  console.log("daily update");
+export function GET(): Response {
+  return Response.json({ message: "daily update page" });
 }

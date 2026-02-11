@@ -72,3 +72,23 @@ export type Transactions = {
   transaction_date: string;
   created_at: string;
 };
+
+export type TwelvedataTimeSeries = {
+  meta: {
+    symbol: string;
+    interval: string;
+    currency: string;
+    exchange_timezone: string;
+    exchange: string;
+    mic_code: string;
+    type: string;
+  };
+  values: {
+    datetime: string;
+    open: string;
+    high: string;
+    low: string;
+    close: string;
+    volume: string;
+  }[];
+};
