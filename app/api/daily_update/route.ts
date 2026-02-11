@@ -7,21 +7,16 @@ async function dailyStockPriceUpdate(): Promise<void> {
 export function GET(request: NextRequest): Response {
   const authHeader = request.headers.get("authorization");
 
-  console.log("Auth header received:", authHeader);
-  console.log("Expected:", `Bearer ${process.env.CRON_SECRET}`);
-
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  return Response.json({ success: true });
-
-  // try {
-  //   dailyStockPriceUpdate();
-  //   return Response.json({ message: "Daily update successful" });
-  // } catch (error) {
-  //   const errorMessage =
-  //     error instanceof Error ? error.message : "Unknown error";
-  //   return Response.json({ error: errorMessage }, { status: 500 });
-  // }
+  try {
+    dailyStockPriceUpdate();
+    return Response.json({ message: "Daily update successful" });
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
+    return Response.json({ error: errorMessage }, { status: 500 });
+  }
 }
