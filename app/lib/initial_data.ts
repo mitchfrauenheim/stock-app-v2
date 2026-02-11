@@ -195,7 +195,7 @@ export const stocks: StockData[] = [
   },
   {
     id: "2dcc1dbd-169d-40e9-b631-ca2f691d2c77",
-    symbol: "APPL",
+    symbol: "AAPL",
     name: "Apple",
   },
   {

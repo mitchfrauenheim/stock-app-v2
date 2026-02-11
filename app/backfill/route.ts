@@ -28,6 +28,8 @@ export async function GET(): Promise<Response> {
     await backfill();
     return Response.json({ message: "Stock data backfilled successfully" });
   } catch (error) {
-    return Response.json({ error });
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
+    return Response.json({ error: errorMessage }, { status: 500 });
   }
 }
