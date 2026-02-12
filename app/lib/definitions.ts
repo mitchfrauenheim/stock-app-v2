@@ -92,3 +92,19 @@ export type TwelvedataTimeSeries = {
     volume: string;
   }[];
 };
+
+export type FinnhubQuote = {
+  c: number;
+  d: number;
+  dp: number;
+  h: number;
+  l: number;
+  o: number;
+  pc: number;
+  t: number;
+};
+
+export type PortfolioEntry = {
+  stock_id: string;
+  close_price: number;
+};

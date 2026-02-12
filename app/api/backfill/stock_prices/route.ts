@@ -4,11 +4,11 @@ import postgres from "postgres";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
-async function backfill(): Promise<void> {
+async function backfillStockPrices(): Promise<void> {
   for (const stock of stocks) {
-    const idResult =
+    const result =
       await sql`SELECT id FROM stocks WHERE symbol = ${stock.symbol}`;
-    const stockId: string = idResult[0].id;
+    const stockId: string = result[0].id;
     const data = await fetch(
       `https://api.twelvedata.com/time_series?symbol=${stock.symbol}&start_date=2026-01-01&interval=1day&apikey=${process.env.TWELVEDATA_API_KEY}`,
     );
@@ -25,7 +25,7 @@ async function backfill(): Promise<void> {
 
 export async function GET(): Promise<Response> {
   try {
-    await backfill();
+    await backfillStockPrices();
     return Response.json({ message: "Stock data backfilled successfully" });
   } catch (error) {
     const errorMessage =
