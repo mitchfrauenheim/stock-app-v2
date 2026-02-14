@@ -1,11 +1,14 @@
 import { FinnhubQuote, StockCloseEntry } from "@/lib/definitions";
 import { NextRequest } from "next/server";
 import postgres from "postgres";
+import { Resend } from "resend";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
+const resend = new Resend(process.env.RESEND_API_KEY);
 const today = new Date().toISOString().split("T")[0];
 
 async function updateStockPrices(): Promise<void> {
+  throw new Error("Test error message");
   const stocksResult = await sql`SELECT id, symbol FROM stocks`;
   const stockPrices: StockCloseEntry[] = [];
 
@@ -61,7 +64,7 @@ async function updateSnapshots(): Promise<void> {
   console.log(`User portfolios updated for ${today}`);
 }
 
-export function GET(request: NextRequest): Response {
+export async function GET(request: NextRequest): Promise<Response> {
   // TODO: uncomment to add cron authorization
   // const authHeader = request.headers.get("authorization");
 
@@ -70,13 +73,35 @@ export function GET(request: NextRequest): Response {
   // }
 
   try {
-    updateStockPrices();
-    updateSnapshots();
+    await updateStockPrices();
+    await updateSnapshots();
     return Response.json({ message: "Daily update successful" });
-  } catch (error) {
-    // TODO: Set up email client to email me if it fails
+  } catch (error1) {
+    // TODO: Clean up error handling and try/catch blocks
     const errorMessage =
-      error instanceof Error ? error.message : "Unknown error";
-    return Response.json({ error: errorMessage }, { status: 500 });
+      error1 instanceof Error ? error1.message : "Unknown error";
+
+    try {
+      const { data, error } = await resend.emails.send({
+        from: "Stock Club <dev@updates.frauenheim-stock-club.app>",
+        to: ["mitch.frauenheim@gmail.com"],
+        subject: `${today} Daily Update Failure`,
+        html: `<p>Daily update failed on ${today} with the following error: ${errorMessage}</p>`,
+      });
+
+      if (error) {
+        const errorMessage2 =
+          error instanceof Error ? error.message : "Unknown error";
+        return Response.json({ error: errorMessage2 }, { status: 500 });
+      }
+
+      return Response.json(data);
+    } catch (error3) {
+      const errorMessage3 =
+        error3 instanceof Error ? error3.message : "Unknown error";
+      return Response.json({ error3: errorMessage3 }, { status: 500 });
+    }
+
+    // return Response.json({ error: errorMessage }, { status: 500 });
   }
 }
