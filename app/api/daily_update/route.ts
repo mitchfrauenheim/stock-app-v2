@@ -51,16 +51,18 @@ async function updateSnapshots(): Promise<void> {
     );
     const cashBalance = 20000 - totalInvestedFunds;
 
-    await sql`
-    INSERT INTO portfolio_snapshots (user_id, snapshot_date, total_value, cash_balance)
-    VALUES (${user.id}, ${today}, ${totalStockValue}, ${cashBalance})
-    ON CONFLICT (user_id, snapshot_date) DO NOTHING
-    `;
+    // TODO: uncommentto add snapshots to db
+    // await sql`
+    // INSERT INTO portfolio_snapshots (user_id, snapshot_date, total_value, cash_balance)
+    // VALUES (${user.id}, ${today}, ${totalStockValue}, ${cashBalance})
+    // ON CONFLICT (user_id, snapshot_date) DO NOTHING
+    // `;
   }
   console.log(`User portfolios updated for ${today}`);
 }
 
 export function GET(request: NextRequest): Response {
+  // TODO: uncomment to add cron authorization
   // const authHeader = request.headers.get("authorization");
 
   // if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
