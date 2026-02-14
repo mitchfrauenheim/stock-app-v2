@@ -19,10 +19,10 @@ async function updateStockPrices(): Promise<void> {
   }
 
   // TODO: uncomment to add daily stock prices to db
-  await sql`INSERT INTO stock_prices (stock_id, price_date, close_price)
-      VALUES ${sql(stockPrices.map((stock) => [stock.stock_id, today, stock.close_price]))}
-      ON CONFLICT (stock_id, price_date) DO NOTHING
-    `;
+  // await sql`INSERT INTO stock_prices (stock_id, price_date, close_price)
+  //     VALUES ${sql(stockPrices.map((stock) => [stock.stock_id, today, stock.close_price]))}
+  //     ON CONFLICT (stock_id, price_date) DO NOTHING
+  //   `;
 
   console.log(`Stock prices updated for ${today}`);
 }
