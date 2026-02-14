@@ -3,9 +3,9 @@ import { NextRequest } from "next/server";
 import postgres from "postgres";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
+const today = new Date().toISOString().split("T")[0];
 
 async function updateStockPrices(): Promise<void> {
-  const today = new Date().toISOString().split("T")[0];
   const stocksResult = await sql`SELECT id, symbol FROM stocks`;
   const stockPrices: StockCloseEntry[] = [];
 
@@ -29,6 +29,35 @@ async function updateStockPrices(): Promise<void> {
 
 async function updateSnapshots(): Promise<void> {
   const usersResult = await sql`SELECT id, email FROM users`;
+
+  for (const user of usersResult) {
+    console.log(user);
+    const snapshotData = await sql`
+      SELECT SUM(h.shares * sp.close_price) as total_stock_value
+      FROM holdings h
+      JOIN stock_prices sp ON h.stock_id = sp.stock_id
+      WHERE h.user_id = ${user.id} AND sp.price_date = ${today}
+    `;
+
+    const investedFundsData = await sql`
+      SELECT SUM(shares * buy_cost) as total_invested
+      FROM holdings
+      WHERE user_id = ${user.id}
+    `;
+
+    const totalStockValue = parseFloat(snapshotData[0].total_stock_value) || 0;
+    const totalInvestedFunds = Math.round(
+      parseFloat(investedFundsData[0].total_invested) || 0,
+    );
+    const cashBalance = 20000 - totalInvestedFunds;
+
+    await sql`
+    INSERT INTO portfolio_snapshots (user_id, snapshot_date, total_value, cash_balance)
+    VALUES (${user.id}, ${today}, ${totalStockValue}, ${cashBalance})
+    ON CONFLICT (user_id, snapshot_date) DO NOTHING
+    `;
+  }
+  console.log(`User portfolios updated for ${today}`);
 }
 
 export function GET(request: NextRequest): Response {
