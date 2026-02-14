@@ -1,14 +1,14 @@
-export type UserData = {
+export type UserBase = {
   id: string;
   name: string;
   email: string;
+};
+
+export type UserData = UserBase & {
   password: string;
 };
 
-export type User = {
-  id: string;
-  name: string;
-  email: string;
+export type User = UserBase & {
   created_at: string;
 };
 
@@ -104,7 +104,7 @@ export type FinnhubQuote = {
   t: number;
 };
 
-export type PortfolioEntry = {
+export type StockCloseEntry = {
   stock_id: string;
   close_price: number;
 };
