@@ -64,6 +64,21 @@ async function updateSnapshots(): Promise<void> {
   console.log(`User portfolios updated for ${today}`);
 }
 
+async function sendErrorEmail(errorMessage: string): Promise<void> {
+  try {
+    await resend.emails.send({
+      from: "Stock Club <dev@updates.frauenheim-stock-club.app>",
+      to: ["mitch.frauenheim@gmail.com"],
+      subject: `${today} Daily Update Failure`,
+      html: `<p>Daily update failed on ${today} with the following error: ${errorMessage}</p>`,
+    });
+  } catch (emailError) {
+    const emailErrorMessage =
+      emailError instanceof Error ? emailError.message : "Unknown error";
+    console.log("Failed to send error email:", emailErrorMessage);
+  }
+}
+
 export async function GET(request: NextRequest): Promise<Response> {
   // TODO: uncomment to add cron authorization
   // const authHeader = request.headers.get("authorization");
@@ -76,32 +91,12 @@ export async function GET(request: NextRequest): Promise<Response> {
     await updateStockPrices();
     await updateSnapshots();
     return Response.json({ message: "Daily update successful" });
-  } catch (error1) {
-    // TODO: Clean up error handling and try/catch blocks
+  } catch (error) {
     const errorMessage =
-      error1 instanceof Error ? error1.message : "Unknown error";
+      error instanceof Error ? error.message : "Unknown error";
 
-    try {
-      const { data, error } = await resend.emails.send({
-        from: "Stock Club <dev@updates.frauenheim-stock-club.app>",
-        to: ["mitch.frauenheim@gmail.com"],
-        subject: `${today} Daily Update Failure`,
-        html: `<p>Daily update failed on ${today} with the following error: ${errorMessage}</p>`,
-      });
-
-      if (error) {
-        const errorMessage2 =
-          error instanceof Error ? error.message : "Unknown error";
-        return Response.json({ error: errorMessage2 }, { status: 500 });
-      }
-
-      return Response.json(data);
-    } catch (error3) {
-      const errorMessage3 =
-        error3 instanceof Error ? error3.message : "Unknown error";
-      return Response.json({ error3: errorMessage3 }, { status: 500 });
-    }
-
-    // return Response.json({ error: errorMessage }, { status: 500 });
+    console.log("Daily update failed:", errorMessage);
+    await sendErrorEmail(errorMessage);
+    return Response.json({ error: errorMessage }, { status: 500 });
   }
 }
