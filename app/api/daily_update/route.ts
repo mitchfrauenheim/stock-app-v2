@@ -8,6 +8,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const today = new Date().toISOString().split("T")[0];
 
 async function updateStockPrices(): Promise<void> {
+  // TODO: Remove testing error once snapshots are backfilled
   throw new Error("Test error message");
   const stocksResult = await sql`SELECT id, symbol FROM stocks`;
   const stockPrices: StockCloseEntry[] = [];
@@ -67,7 +68,7 @@ async function updateSnapshots(): Promise<void> {
 async function sendErrorEmail(errorMessage: string): Promise<void> {
   try {
     await resend.emails.send({
-      from: "Stock Club <dev@updates.frauenheim-stock-club.app>",
+      from: "Frauenheim Stock Club <dev@updates.frauenheim-stock-club.app>",
       to: ["mitch.frauenheim@gmail.com"],
       subject: `${today} Daily Update Failure`,
       html: `<p>Daily update failed on ${today} with the following error: ${errorMessage}</p>`,
@@ -80,7 +81,6 @@ async function sendErrorEmail(errorMessage: string): Promise<void> {
 }
 
 export async function GET(request: NextRequest): Promise<Response> {
-  // TODO: uncomment to add cron authorization
   const authHeader = request.headers.get("authorization");
 
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
