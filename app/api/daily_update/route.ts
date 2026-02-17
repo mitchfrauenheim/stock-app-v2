@@ -9,8 +9,6 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const today = new Date().toISOString().split("T")[0];
 
 async function updateStockPrices(): Promise<void> {
-  // TODO: Remove testing error once snapshots are backfilled
-  throw new Error("Test error message");
   const stocksResult = await sql`SELECT id, symbol FROM stocks`;
   const stockPrices: StockCloseEntry[] = [];
 
@@ -23,11 +21,10 @@ async function updateStockPrices(): Promise<void> {
     stockPrices.push({ stock_id: stock.id, close_price: stockQuote.c });
   }
 
-  // TODO: uncomment to add daily stock prices to db
-  // await sql`INSERT INTO stock_prices (stock_id, price_date, close_price)
-  //     VALUES ${sql(stockPrices.map((stock) => [stock.stock_id, today, stock.close_price]))}
-  //     ON CONFLICT (stock_id, price_date) DO NOTHING
-  //   `;
+  await sql`INSERT INTO stock_prices (stock_id, price_date, close_price)
+      VALUES ${sql(stockPrices.map((stock) => [stock.stock_id, today, stock.close_price]))}
+      ON CONFLICT (stock_id, price_date) DO NOTHING
+    `;
 
   console.log(`Stock prices updated for ${today}`);
 }
@@ -50,19 +47,18 @@ async function updateSnapshots(): Promise<void> {
       WHERE user_id = ${user.id}
     `;
 
-    const totalStockValue = parseFloat(snapshotData[0].total_stock_value) || 0;
+    const totalStockValue = parseFloat(snapshotData[0]?.total_stock_value) || 0;
     const totalInvestedFunds = Math.round(
-      parseFloat(investedFundsData[0].total_invested) || 0,
+      parseFloat(investedFundsData[0]?.total_invested) || 0,
     );
     const cashBalance = 20000 - totalInvestedFunds;
     const totalValue = totalStockValue + cashBalance;
 
-    // TODO: uncommentto add snapshots to db
-    // await sql`
-    // INSERT INTO portfolio_snapshots (user_id, snapshot_date, total_value, cash_balance)
-    // VALUES (${user.id}, ${today}, ${totalValue}, ${cashBalance})
-    // ON CONFLICT (user_id, snapshot_date) DO NOTHING
-    // `;
+    await sql`
+    INSERT INTO portfolio_snapshots (user_id, snapshot_date, total_value, cash_balance)
+    VALUES (${user.id}, ${today}, ${totalValue}, ${cashBalance})
+    ON CONFLICT (user_id, snapshot_date) DO NOTHING
+    `;
   }
   console.log(`User portfolios updated for ${today}`);
 }
@@ -83,11 +79,11 @@ async function sendErrorEmail(errorMessage: string): Promise<void> {
 }
 
 export async function GET(request: NextRequest): Promise<Response> {
-  // const authHeader = request.headers.get("authorization");
+  const authHeader = request.headers.get("authorization");
 
-  // if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-  //   return new Response("Unauthorized", { status: 401 });
-  // }
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new Response("Unauthorized", { status: 401 });
+  }
 
   try {
     if (US_MARKET_HOLIDAYS_2026.has(today)) {

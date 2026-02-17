@@ -22,7 +22,7 @@ async function backfillSnapshots(): Promise<void> {
     `;
 
     const totalInvestedFunds = Math.round(
-      parseFloat(investedFundsData[0].total_invested) || 0,
+      parseFloat(investedFundsData[0]?.total_invested) || 0,
     );
     const cashBalance = 20000 - totalInvestedFunds;
     const preparedSnapshots = snapshotData.map((day) => [

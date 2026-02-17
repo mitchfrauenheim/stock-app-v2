@@ -42,14 +42,15 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - [x] Configure PostgreSQL on Neon
 - [ ] Install Prisma
   - Maybe no Prisma, could be good to write raw SQL
-- [ ] Determine database schema
+- [x] Determine database schema
+- [x] Backfill data, write update script
 - [ ] Wireframe frontend
 - [ ] Get login/auth, database, external API calls working
 - [ ] Begin frontend developmet
   - [ ] Choose charting library (recharts, charts.js, victory)
 - [ ] Implement testing for PRs (CI/CD pipeline)
 - [ ] Choose / configure testing suite
-- [ ] Deploy on Vercel
+- [x] Deploy on Vercel
 
 ### Stack
 
@@ -59,4 +60,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - Postgres + Prisma, hosted on Neon
 - NextAuth.js for auth
 - Recharts for visualization
-- Finnhub for stock data
+- Finnhub for stock data, Twelvedata for backfill
