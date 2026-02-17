@@ -6,8 +6,6 @@ async function backfillSnapshots(): Promise<void> {
   const usersResult = await sql`SELECT id, email FROM users`;
 
   for (const user of usersResult) {
-    // get all stock close price from stock prices for up to 4 stock ids, order by price_date
-    // compute balance for each date, add cash if user holds cash
     const snapshotData = await sql`
       SELECT sp.price_date, SUM(h.shares * sp.close_price) as total_stock_value
       FROM holdings h
@@ -41,8 +39,6 @@ async function backfillSnapshots(): Promise<void> {
       ON CONFLICT (user_id, snapshot_date) DO NOTHING
       `;
     }
-
-    console.log(snapshotData);
   }
 }
 

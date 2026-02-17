@@ -1,4 +1,5 @@
 import { FinnhubQuote, StockCloseEntry } from "@/lib/definitions";
+import { US_MARKET_HOLIDAYS_2026 } from "@/lib/initial_data";
 import { NextRequest } from "next/server";
 import postgres from "postgres";
 import { Resend } from "resend";
@@ -82,13 +83,18 @@ async function sendErrorEmail(errorMessage: string): Promise<void> {
 }
 
 export async function GET(request: NextRequest): Promise<Response> {
-  const authHeader = request.headers.get("authorization");
+  // const authHeader = request.headers.get("authorization");
 
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return new Response("Unauthorized", { status: 401 });
-  }
+  // if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  //   return new Response("Unauthorized", { status: 401 });
+  // }
 
   try {
+    if (US_MARKET_HOLIDAYS_2026.has(today)) {
+      throw new Error(
+        `Daily update skipped for ${US_MARKET_HOLIDAYS_2026.get(today)}`,
+      );
+    }
     await updateStockPrices();
     await updateSnapshots();
     return Response.json({ message: "Daily update successful" });
