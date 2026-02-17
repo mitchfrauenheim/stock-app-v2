@@ -54,11 +54,12 @@ async function updateSnapshots(): Promise<void> {
       parseFloat(investedFundsData[0].total_invested) || 0,
     );
     const cashBalance = 20000 - totalInvestedFunds;
+    const totalValue = totalStockValue + cashBalance;
 
     // TODO: uncommentto add snapshots to db
     // await sql`
     // INSERT INTO portfolio_snapshots (user_id, snapshot_date, total_value, cash_balance)
-    // VALUES (${user.id}, ${today}, ${totalStockValue}, ${cashBalance})
+    // VALUES (${user.id}, ${today}, ${totalValue}, ${cashBalance})
     // ON CONFLICT (user_id, snapshot_date) DO NOTHING
     // `;
   }

@@ -10,7 +10,7 @@ async function backfillStockPrices(): Promise<void> {
       await sql`SELECT id FROM stocks WHERE symbol = ${stock.symbol}`;
     const stockId: string = result[0].id;
     const data = await fetch(
-      `https://api.twelvedata.com/time_series?symbol=${stock.symbol}&start_date=2026-01-01&interval=1day&apikey=${process.env.TWELVEDATA_API_KEY}`,
+      `https://api.twelvedata.com/time_series?symbol=${stock.symbol}&start_date=2026-02-12&interval=1day&apikey=${process.env.TWELVEDATA_API_KEY}`,
     );
     const stockData: TwelvedataTimeSeries = await data.json();
     await sql`
