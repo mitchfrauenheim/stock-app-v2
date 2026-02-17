@@ -78,6 +78,21 @@ async function sendErrorEmail(errorMessage: string): Promise<void> {
   }
 }
 
+async function sendSuccessEmail(): Promise<void> {
+  try {
+    await resend.emails.send({
+      from: "Frauenheim Stock Club <dev@updates.frauenheim-stock-club.app>",
+      to: ["mitch.frauenheim@gmail.com"],
+      subject: `${today} Daily Update Success`,
+      html: `<p>Daily update succeeded on ${today}</p>`,
+    });
+  } catch (emailError) {
+    const emailErrorMessage =
+      emailError instanceof Error ? emailError.message : "Unknown error";
+    console.log("Failed to send error email:", emailErrorMessage);
+  }
+}
+
 export async function GET(request: NextRequest): Promise<Response> {
   const authHeader = request.headers.get("authorization");
 
@@ -93,6 +108,7 @@ export async function GET(request: NextRequest): Promise<Response> {
     }
     await updateStockPrices();
     await updateSnapshots();
+    await sendSuccessEmail();
     return Response.json({ message: "Daily update successful" });
   } catch (error) {
     const errorMessage =
