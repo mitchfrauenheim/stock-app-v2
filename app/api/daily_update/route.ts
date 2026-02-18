@@ -33,7 +33,6 @@ async function updateSnapshots(): Promise<void> {
   const usersResult = await sql`SELECT id, email FROM users`;
 
   for (const user of usersResult) {
-    console.log(user);
     const snapshotData = await sql`
       SELECT SUM(h.shares * sp.close_price) as total_stock_value
       FROM holdings h
