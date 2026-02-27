@@ -1,19 +1,25 @@
 // import Image from "next/image";
 // import Link from "next/link";
 // import { Button } from "./components/ui/button";
+import { Header } from "./components/header";
 
 export default function Home() {
   return (
-    <div className="grid grid-flow-col md:grid-flow-row grid-cols-4 grid-rows-3 min-h-screen">
-      <div className="row-span-3 bg-red-100 flex items-center justify-center">
-        01
-      </div>
-      <div className="col-span-3 bg-blue-100 flex items-center justify-center">
-        02
-      </div>
-      <div className="col-span-3 row-span-2 bg-green-100 flex items-center justify-center">
-        03
-      </div>
+    <div className="flex flex-col min-w-screen min-h-screen bg-background">
+      <Header />
+      <main className="flex grow bg-yellow-100">
+        <div className="grid grid-flow-col md:grid-flow-row grid-cols-4 grid-rows-3 w-full min-h-full">
+          <div className="row-span-3 bg-red-100 flex items-center justify-center border-r dashed-vertical">
+            01
+          </div>
+          <div className="col-span-3 bg-blue-100 flex items-center justify-center">
+            02
+          </div>
+          <div className="col-span-3 row-span-2 bg-green-100 flex items-center justify-center border-t dashed-horizontal">
+            03
+          </div>
+        </div>
+      </main>
     </div>
     // <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
     //   <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
