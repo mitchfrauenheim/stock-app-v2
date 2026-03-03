@@ -3,7 +3,7 @@ import { NavigationMenu as NavigationMenuPrimitive } from "radix-ui";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { CaretDownIcon } from "@phosphor-icons/react";
+import { CaretDownIcon } from "@phosphor-icons/react/ssr";
 
 function NavigationMenu({
   className,
