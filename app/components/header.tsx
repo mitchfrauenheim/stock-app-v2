@@ -1,3 +1,5 @@
+"use client";
+
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -6,7 +8,9 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { GithubLogoIcon } from "@phosphor-icons/react/ssr";
+import clsx from "clsx";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 type NavMenuLink = {
   pageName: string;
@@ -20,29 +24,34 @@ const navMenuLinks: NavMenuLink[] = [
   },
   {
     pageName: "Leaderboard",
-    path: "/",
+    path: "/leaderboard",
   },
   {
-    pageName: "Historical Data",
-    path: "/",
+    pageName: "History",
+    path: "/visualization",
   },
 ];
 
 export function Header() {
+  const pathname = usePathname();
+  console.log(pathname);
+
   return (
-    <div className="px-8 py-4 w-full border-b dashed-horizontal">
-      <div className="grid grid-cols-3">
+    <div className="px-8 py-4 min-w-screen border-b dashed-horizontal">
+      <div className="grid grid-cols-2 sm:grid-cols-3">
         <h1 className="font-sans text-xl font-semibold content-center">
           Stock Club Analytics
         </h1>
-        <div className="justify-self-center">
+        <div className="justify-self-center font-mono sm:inline hidden">
           <NavigationMenu>
             <NavigationMenuList>
               {navMenuLinks.map((menuLink) => (
                 <NavigationMenuItem key={menuLink.pageName}>
                   <NavigationMenuLink
                     asChild
-                    className={navigationMenuTriggerStyle()}
+                    className={clsx(navigationMenuTriggerStyle(), {
+                      "font-medium": pathname === menuLink.path,
+                    })}
                   >
                     <Link href={menuLink.path}>{menuLink.pageName}</Link>
                   </NavigationMenuLink>
