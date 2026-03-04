@@ -50,7 +50,7 @@ export function Header() {
                   <NavigationMenuLink
                     asChild
                     className={clsx(navigationMenuTriggerStyle(), {
-                      "font-medium": pathname === menuLink.path,
+                      "font-semibold": pathname === menuLink.path,
                     })}
                   >
                     <Link href={menuLink.path}>{menuLink.pageName}</Link>
