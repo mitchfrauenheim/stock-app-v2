@@ -38,11 +38,11 @@ export function Header() {
 
   return (
     <div className="px-8 py-4 min-w-screen border-b dashed-horizontal">
-      <div className="grid grid-cols-2 sm:grid-cols-3">
+      <div className="grid grid-cols-2 md:grid-cols-3">
         <h1 className="font-sans text-xl font-medium content-center">
           Stock Club Analytics
         </h1>
-        <div className="justify-self-center font-mono sm:inline hidden">
+        <div className="justify-self-center font-mono md:inline hidden">
           <NavigationMenu>
             <NavigationMenuList>
               {navMenuLinks.map((menuLink) => (

@@ -14,13 +14,13 @@ export default function Page() {
         title="Page Under Construction"
         description="The Visualizations page is still under construction. Check back later!"
         icon={<HammerIcon />}
-        className="hidden sm:flex"
+        className="hidden md:flex"
       />
       <EmptyPage
         title="Page Not Optimized"
         description="The Visualizations page is not optimized for mobile viewing. Please revisit the page on a larger device."
         icon={<DevicesIcon />}
-        className="flex sm:hidden"
+        className="flex md:hidden"
       >
         <Button
           variant="link"
