@@ -11,6 +11,7 @@ type Props = {
   description: string;
   icon: React.ReactNode;
   className?: string;
+  children?: React.ReactNode;
 };
 
 export default function EmptyPage({
@@ -18,6 +19,7 @@ export default function EmptyPage({
   description,
   icon,
   className = "",
+  children,
 }: Props) {
   return (
     <Empty className={className}>
@@ -26,6 +28,7 @@ export default function EmptyPage({
         <EmptyTitle>{title}</EmptyTitle>
         <EmptyDescription>{description}</EmptyDescription>
       </EmptyHeader>
+      {children}
     </Empty>
   );
 }
