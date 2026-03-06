@@ -38,7 +38,7 @@ export function Header() {
 
   return (
     <div className="px-8 py-4 min-w-screen border-b dashed-horizontal">
-      <div className="grid grid-cols-2 md:grid-cols-3">
+      <div className="grid grid-cols-[auto_1fr] md:grid-cols-3">
         <h1 className="font-sans text-xl font-medium content-center">
           Stock Club Analytics
         </h1>
