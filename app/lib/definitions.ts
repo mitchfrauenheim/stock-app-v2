@@ -108,3 +108,10 @@ export type StockCloseEntry = {
   stock_id: string;
   close_price: number;
 };
+
+export type LeaderboardEntry = {
+  name: string;
+  total_value: string;
+  stocks: string[];
+  cash_balance: string;
+};

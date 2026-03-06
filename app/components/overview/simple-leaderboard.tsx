@@ -1,3 +1,5 @@
+import { fetchLeaderboard } from "@/api/data";
+import { LeaderboardEntry } from "@/lib/definitions";
 import {
   Item,
   ItemActions,
@@ -7,35 +9,27 @@ import {
   ItemTitle,
 } from "../ui/item";
 
-const sampleData = [
-  {
-    name: "Mitch",
-    amount: "20000.00",
-    stocks: "C, TSLA, AAPL",
-  },
-  {
-    name: "Bill",
-    amount: "19000.00",
-    stocks: "NVDA, AMZ, MSFT, Cash",
-  },
-];
+export default async function SimpleLeaderboard() {
+  const leaderboard: LeaderboardEntry[] = await fetchLeaderboard();
 
-export default function SimpleLeaderboard() {
   return (
-    <div className="w-full lg:w-2xs flex flex-col lg:border-r dashed-vertical">
-      <div className="p-4 flex flex-col">
-        <div className="pb-2">
+    <div className="w-full lg:w-xs flex flex-col lg:border-r dashed-vertical">
+      <div className="p-4 flex flex-col min-h-0 flex-1">
+        <div className="pb-2 shrink-0">
           <h2 className="text-lg font-semibold font-sans">Leaderboard</h2>
         </div>
-        <div className="flex flex-col overflow-scroll">
+        <div className="overflow-y-auto">
           <ItemGroup className="gap-0">
-            {sampleData.map((person) => (
+            {leaderboard.map((person) => (
               <Item key={person.name}>
                 <ItemContent>
                   <ItemTitle className="font-semibold">{person.name}</ItemTitle>
-                  <ItemDescription>{person.stocks}</ItemDescription>
+                  <ItemDescription className="hidden sm:inline">
+                    {person.stocks.join(", ")}
+                    {parseFloat(person.cash_balance) > 0 && ", Cash"}
+                  </ItemDescription>
                 </ItemContent>
-                <ItemActions>{person.amount}</ItemActions>
+                <ItemActions>{person.total_value}</ItemActions>
               </Item>
             ))}
           </ItemGroup>

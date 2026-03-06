@@ -9,7 +9,7 @@ export default function Home() {
       /> */}
       <div className="w-full max-w-[1248] flex h-full mx-6 border-x dashed-vertical">
         <div className="flex flex-col w-full">
-          <div className="flex flex-col lg:flex-row lg:h-sm border-b dashed-horizontal">
+          <div className="lg:h-[388] flex flex-col lg:flex-row border-b dashed-horizontal">
             <SimpleLeaderboard />
             <div className="flex flex-1"></div>
           </div>
