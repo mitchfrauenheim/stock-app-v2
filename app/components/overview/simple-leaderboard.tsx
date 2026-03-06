@@ -20,7 +20,7 @@ export default async function SimpleLeaderboard() {
           <h2 className="text-lg font-semibold font-sans">Leaderboard</h2>
         </div>
         <div className="overflow-y-auto">
-          <ItemGroup className="gap-0">
+          <ItemGroup className="gap-1 sm:gap-0">
             {leaderboard.map((person) => (
               <Item key={person.name}>
                 <ItemContent>

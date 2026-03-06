@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Header } from "./components/header";
 import { ThemeProvider } from "./components/theme-provider";
+import { TooltipProvider } from "./components/ui/tooltip";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,12 +33,14 @@ export default function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          <main>{children}</main>
+          <TooltipProvider>
+            <Header />
+            <main>{children}</main>
+          </TooltipProvider>
         </ThemeProvider>
         <SpeedInsights />
       </body>
