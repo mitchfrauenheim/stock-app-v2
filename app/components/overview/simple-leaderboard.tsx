@@ -1,5 +1,6 @@
 import { fetchLeaderboard } from "@/api/data";
 import { LeaderboardEntry } from "@/lib/definitions";
+import clsx from "clsx";
 import {
   Item,
   ItemActions,
@@ -29,7 +30,13 @@ export default async function SimpleLeaderboard() {
                     {parseFloat(person.cash_balance) > 0 && ", Cash"}
                   </ItemDescription>
                 </ItemContent>
-                <ItemActions>{person.total_value}</ItemActions>
+                <ItemActions
+                  className={clsx({
+                    "text-destructive": parseFloat(person.total_value) < 20000,
+                  })}
+                >
+                  ${person.total_value}
+                </ItemActions>
               </Item>
             ))}
           </ItemGroup>
