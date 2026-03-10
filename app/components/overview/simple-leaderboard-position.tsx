@@ -15,7 +15,7 @@ export default function SimpleLeaderboardPosition({ person }: SimpleLeaderboardP
     <Item key={person.name}>
       <ItemContent>
         <ItemTitle className="font-semibold">{person.name}</ItemTitle>
-        <ItemDescription className="hidden sm:block">
+        <ItemDescription className="line-clamp-none">
           {person.stocks.map((stock, index) => (
             <Fragment key={stock.symbol}>
               <Tooltip>
@@ -49,13 +49,7 @@ export default function SimpleLeaderboardPosition({ person }: SimpleLeaderboardP
           )}
         </ItemDescription>
       </ItemContent>
-      <ItemActions
-        className={clsx({
-          "text-destructive": parseFloat(person.total_value) < 20000,
-        })}
-      >
-        ${person.total_value}
-      </ItemActions>
+      <ItemActions>${person.total_value}</ItemActions>
     </Item>
   );
 }

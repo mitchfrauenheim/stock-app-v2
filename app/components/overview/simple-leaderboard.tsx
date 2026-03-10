@@ -20,25 +20,9 @@ export default async function SimpleLeaderboard() {
           <h2 className="text-lg font-semibold font-sans">Leaderboard</h2>
         </div>
         <div className="overflow-y-auto no-scrollbar relative">
-          <ItemGroup className="gap-1 sm:gap-0">
+          <ItemGroup className="gap-4 sm:gap-0">
             {leaderboard.map((person) => (
               <SimpleLeaderboardPosition key={person.name} person={person} />
-              // <Item key={person.name}>
-              //   <ItemContent>
-              //     <ItemTitle className="font-semibold">{person.name}</ItemTitle>
-              //     <ItemDescription className="hidden sm:block">
-              //       {person.stocks.join(", ")}
-              //       {parseFloat(person.cash_balance) > 0 && ", Cash"}
-              //     </ItemDescription>
-              //   </ItemContent>
-              //   <ItemActions
-              //     className={clsx({
-              //       "text-destructive": parseFloat(person.total_value) < 20000,
-              //     })}
-              //   >
-              //     ${person.total_value}
-              //   </ItemActions>
-              // </Item>
             ))}
           </ItemGroup>
           <div className="hidden lg:block sticky bottom-0 left-0 h-8 bg-linear-to-t from-background to-transparent"></div>
