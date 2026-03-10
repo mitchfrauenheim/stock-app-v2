@@ -42,7 +42,7 @@ export function Header() {
         <h1 className="font-sans text-xl font-semibold content-center">
           Stock Club Analytics
         </h1>
-        <div className="justify-self-center font-mono md:inline hidden">
+        <div className="justify-self-center font-mono md:block hidden">
           <NavigationMenu>
             <NavigationMenuList>
               {navMenuLinks.map((menuLink) => (
@@ -60,12 +60,13 @@ export function Header() {
             </NavigationMenuList>
           </NavigationMenu>
         </div>
-        <Link
+        <a
           href="https://github.com/mitchfrauenheim/stock-app-v2"
+          target="_blank"
           className="font-medium justify-self-end content-center"
         >
           <GithubLogoIcon size={24} />
-        </Link>
+        </a>
       </div>
     </div>
   );
