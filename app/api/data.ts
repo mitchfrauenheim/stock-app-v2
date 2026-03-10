@@ -8,6 +8,11 @@ export async function fetchLeaderboard(): Promise<LeaderboardEntry[]> {
     timeZone: "America/Los_Angeles",
   });
 
+  console.error("=== FETCHLEADERBOARD DEBUG ===");
+  console.error("Raw Date object:", new Date());
+  console.error("Computed today:", today);
+  console.error("Environment:", process.env.NODE_ENV);
+
   const todaySnapshot = await sql`
     SELECT COUNT(*) as count 
     FROM portfolio_snapshots 
