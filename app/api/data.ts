@@ -12,12 +12,12 @@ export async function fetchLeaderboard(): Promise<LeaderboardEntry[]> {
     WHERE snapshot_date = ${today}
   `;
 
-  console.log(today);
+  console.error(today);
   if (todaySnapshot[0].count > 0) {
-    console.log("fetching from db");
+    console.error("fetching from db");
     return fetchStoredLeaderboard(today);
   } else {
-    console.log("fetching from finnhub");
+    console.error("fetching from finnhub");
     return fetchLiveLeaderboard();
   }
 }
