@@ -4,7 +4,9 @@ import postgres from "postgres";
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
 export async function fetchLeaderboard(): Promise<LeaderboardEntry[]> {
-  const today = new Date().toLocaleDateString("en-CA");
+  const today = new Date().toLocaleDateString("en-CA", {
+    timeZone: "America/Los_Angeles",
+  });
 
   const todaySnapshot = await sql`
     SELECT COUNT(*) as count 
@@ -12,12 +14,9 @@ export async function fetchLeaderboard(): Promise<LeaderboardEntry[]> {
     WHERE snapshot_date = ${today}
   `;
 
-  console.error(today);
   if (todaySnapshot[0].count > 0) {
-    console.error("fetching from db");
     return fetchStoredLeaderboard(today);
   } else {
-    console.error("fetching from finnhub");
     return fetchLiveLeaderboard();
   }
 }
