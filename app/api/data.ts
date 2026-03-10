@@ -1,8 +1,4 @@
-import {
-  FinnhubQuote,
-  LeaderboardEntry,
-  StockHolding,
-} from "@/lib/definitions";
+import { FinnhubQuote, LeaderboardEntry, StockHolding } from "@/lib/definitions";
 import postgres from "postgres";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
@@ -16,16 +12,17 @@ export async function fetchLeaderboard(): Promise<LeaderboardEntry[]> {
     WHERE snapshot_date = ${today}
   `;
 
+  console.log(today);
   if (todaySnapshot[0].count > 0) {
+    console.log("fetching from db");
     return fetchStoredLeaderboard(today);
   } else {
+    console.log("fetching from finnhub");
     return fetchLiveLeaderboard();
   }
 }
 
-async function fetchStoredLeaderboard(
-  date: string,
-): Promise<LeaderboardEntry[]> {
+async function fetchStoredLeaderboard(date: string): Promise<LeaderboardEntry[]> {
   const leaderboardData = await sql<LeaderboardEntry[]>`
   SELECT 
     u.name,
@@ -68,9 +65,7 @@ async function fetchLiveLeaderboard(): Promise<LeaderboardEntry[]> {
     const stockSymbols: StockHolding[] = [];
 
     for (const holding of holdings) {
-      const data = await fetch(
-        `https://finnhub.io/api/v1/quote?symbol=${holding.symbol}&token=${process.env.FINNHUB_API_KEY}`,
-      );
+      const data = await fetch(`https://finnhub.io/api/v1/quote?symbol=${holding.symbol}&token=${process.env.FINNHUB_API_KEY}`);
       const quote: FinnhubQuote = await data.json();
       const stockValue = holding.shares * quote.c;
       totalStockValue += stockValue;
@@ -86,8 +81,7 @@ async function fetchLiveLeaderboard(): Promise<LeaderboardEntry[]> {
       SELECT SUM(shares * buy_cost) as total_invested
       FROM holdings WHERE user_id = ${user.id}
     `;
-    const cashBalance =
-      20000 - Math.round(parseFloat(investedResult[0]?.total_invested || "0"));
+    const cashBalance = 20000 - Math.round(parseFloat(investedResult[0]?.total_invested || "0"));
 
     leaderboard.push({
       name: user.name,
@@ -97,7 +91,5 @@ async function fetchLiveLeaderboard(): Promise<LeaderboardEntry[]> {
     });
   }
 
-  return leaderboard.sort(
-    (a, b) => parseFloat(b.total_value) - parseFloat(a.total_value),
-  );
+  return leaderboard.sort((a, b) => parseFloat(b.total_value) - parseFloat(a.total_value));
 }
