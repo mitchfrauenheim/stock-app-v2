@@ -6,7 +6,7 @@ import {
   EmptyTitle,
 } from "./empty";
 
-type Props = {
+type EmptyPageProps = {
   title: string;
   description: string;
   icon: React.ReactNode;
@@ -20,7 +20,7 @@ export default function EmptyPage({
   icon,
   className = "",
   children,
-}: Props) {
+}: EmptyPageProps) {
   return (
     <Empty className={className}>
       <EmptyHeader>

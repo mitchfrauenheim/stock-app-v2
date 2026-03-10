@@ -37,12 +37,10 @@ export function Header() {
   console.log(pathname);
 
   return (
-    <div className="px-8 py-4 min-w-screen border-b dashed-horizontal">
+    <div className="sticky top-0 z-50 px-8 py-4 min-w-screen border-b dashed-horizontal bg-background">
       <div className="grid grid-cols-[auto_1fr] md:grid-cols-3">
-        <h1 className="font-sans text-xl font-medium content-center">
-          Stock Club Analytics
-        </h1>
-        <div className="justify-self-center font-mono md:inline hidden">
+        <h1 className="font-sans text-xl font-semibold content-center">Stock Club Analytics</h1>
+        <div className="justify-self-center font-mono md:block hidden">
           <NavigationMenu>
             <NavigationMenuList>
               {navMenuLinks.map((menuLink) => (
@@ -60,12 +58,13 @@ export function Header() {
             </NavigationMenuList>
           </NavigationMenu>
         </div>
-        <Link
+        <a
           href="https://github.com/mitchfrauenheim/stock-app-v2"
+          target="_blank"
           className="font-medium justify-self-end content-center"
         >
           <GithubLogoIcon size={24} />
-        </Link>
+        </a>
       </div>
     </div>
   );
