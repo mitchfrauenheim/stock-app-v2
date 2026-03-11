@@ -1,4 +1,4 @@
-import { FinnhubQuote, LeaderboardEntry, StockHolding } from "@/lib/definitions";
+import { FinnhubQuote, LeaderboardEntry, SnapshotsChartDataPoint, StockHolding } from "@/lib/definitions";
 import postgres from "postgres";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
@@ -8,11 +8,6 @@ export async function fetchLeaderboard(): Promise<LeaderboardEntry[]> {
     timeZone: "America/Los_Angeles",
   });
 
-  console.error("=== FETCHLEADERBOARD DEBUG ===");
-  console.error("Raw Date object:", new Date());
-  console.error("Computed today:", today);
-  console.error("Environment:", process.env.NODE_ENV);
-
   const todaySnapshot = await sql`
     SELECT COUNT(*) as count 
     FROM portfolio_snapshots 
@@ -20,8 +15,10 @@ export async function fetchLeaderboard(): Promise<LeaderboardEntry[]> {
   `;
 
   if (todaySnapshot[0].count > 0) {
+    console.log("fetching from db");
     return fetchStoredLeaderboard(today);
   } else {
+    console.log("fetching from finnhub");
     return fetchLiveLeaderboard();
   }
 }
@@ -96,4 +93,50 @@ async function fetchLiveLeaderboard(): Promise<LeaderboardEntry[]> {
   }
 
   return leaderboard.sort((a, b) => parseFloat(b.total_value) - parseFloat(a.total_value));
+}
+
+function formatDate(dateStr: string): string {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+}
+
+export async function fetchUserFirstNames(): Promise<string[]> {
+  const users = await sql`
+    SELECT DISTINCT SPLIT_PART(name, ' ', 1) as first_name 
+    FROM users 
+    ORDER BY first_name
+  `;
+  const userNames = users.map((u) => u.first_name);
+
+  return userNames;
+}
+
+export async function fetchSnapshotsChartData(): Promise<SnapshotsChartDataPoint[]> {
+  const snapshots = await sql`
+  SELECT 
+    TO_CHAR(ps.snapshot_date, 'YYYY-MM-DD') as snapshot_date,
+    SPLIT_PART(u.name, ' ', 1) as first_name,
+    ps.total_value
+    FROM portfolio_snapshots ps
+    JOIN users u ON ps.user_id = u.id
+    ORDER BY ps.snapshot_date, u.name
+  `;
+
+  const dataByDate: { [date: string]: SnapshotsChartDataPoint } = {};
+
+  for (const snapshot of snapshots) {
+    const dateStr = snapshot.snapshot_date;
+    const formattedDate = formatDate(dateStr);
+
+    if (!dataByDate[dateStr]) {
+      dataByDate[dateStr] = { date: formattedDate };
+    }
+
+    dataByDate[dateStr][snapshot.first_name] = parseFloat(snapshot.total_value);
+  }
+
+  return Object.values(dataByDate);
 }

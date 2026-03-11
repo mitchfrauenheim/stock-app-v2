@@ -1,5 +1,11 @@
+import { fetchSnapshotsChartData, fetchUserFirstNames } from "./api/data";
 import SimpleLeaderboard from "./components/overview/simple-leaderboard";
-export default function Home() {
+import SnapshotsChart from "./components/overview/snapshots-chart";
+import { SnapshotsChartDataPoint } from "./lib/definitions";
+
+export default async function Home() {
+  const chartData: SnapshotsChartDataPoint[] = await fetchSnapshotsChartData();
+  const firstNames: string[] = await fetchUserFirstNames();
   return (
     <div className="h-full w-full flex items-center justify-center font-mono">
       {/* <EmptyPage
@@ -11,7 +17,9 @@ export default function Home() {
         <div className="flex flex-col w-full">
           <div className="lg:h-[388] flex flex-col lg:flex-row border-b dashed-horizontal">
             <SimpleLeaderboard />
-            <div className="flex flex-1"></div>
+            <div className="flex flex-1">
+              <SnapshotsChart data={chartData} users={firstNames} />
+            </div>
           </div>
         </div>
       </div>

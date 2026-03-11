@@ -121,3 +121,8 @@ export type LeaderboardEntry = {
   stocks: StockHolding[];
   cash_balance: string;
 };
+
+export type SnapshotsChartDataPoint = {
+  date: string;
+  [key: string]: string | number;
+};
