@@ -56,8 +56,7 @@ export default function SnapshotsChart({ data, users }: SnapshotsChartProps) {
         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
         <CartesianGrid vertical={false} />
         <XAxis dataKey="date" tickLine={false} axisLine={false} tickMargin={8} minTickGap={40} />
-        <YAxis domain={["dataMin - 300", "dataMax + 300"]} tickLine={false} axisLine={false} tickMargin={4} />
-
+        <YAxis domain={[17000, 27000]} allowDataOverflow tickLine={false} axisLine={false} tickMargin={4} />
         {users.map((user) => (
           <Line key={user} type="monotone" dataKey={user} strokeWidth={2} dot={false} stroke={`var(--color-${user})`} />
         ))}
