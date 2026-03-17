@@ -96,11 +96,9 @@ async function fetchLiveLeaderboard(): Promise<LeaderboardEntry[]> {
 }
 
 function formatDate(dateStr: string): string {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  });
+  const [year, month, day] = dateStr.split("-");
+  const monthNames = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.", "Jul.", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."];
+  return `${monthNames[parseInt(month) - 1]} ${parseInt(day)}`;
 }
 
 export async function fetchUserFirstNames(): Promise<string[]> {
