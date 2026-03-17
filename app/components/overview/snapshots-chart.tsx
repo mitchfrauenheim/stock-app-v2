@@ -19,39 +19,39 @@ type SnapshotsChartProps = {
 const chartConfig = {
   Mitch: {
     label: "Mitch",
-    color: "#52AEFF",
+    color: "var(--chart-1)",
   },
   Bill: {
     label: "Bill",
-    color: "#F87274",
+    color: "var(--chart-2)",
   },
   Sandy: {
     label: "Sandy",
-    color: "#F5B047",
+    color: "var(--chart-3)",
   },
   Havila: {
     label: "Havila",
-    color: "#6CDA76",
+    color: "var(--chart-4)",
   },
   Bob: {
     label: "Bob",
-    color: "#45DEC4",
+    color: "var(--chart-5)",
   },
   Dan: {
     label: "Dan",
-    color: "#BE89EC",
+    color: "var(--chart-6)",
   },
   Monique: {
     label: "Monique",
-    color: "#F476AB",
+    color: "var(--chart-7)",
   },
   Alexa: {
     label: "Alexa",
-    color: "#00000057",
+    color: "var(--chart-8)",
   },
   Greg: {
     label: "Greg",
-    color: "#A8A8A8",
+    color: "var(--chart-9)",
   },
 } satisfies ChartConfig;
 
