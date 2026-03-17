@@ -30,7 +30,7 @@ export default function SimpleLeaderboardPosition({ person }: SimpleLeaderboardP
                         : "text-success-tooltip",
                     )}
                   >
-                    ${stock.value}
+                    ${stock.value.toFixed(2)}
                   </span>
                 </TooltipContent>
               </Tooltip>
@@ -49,7 +49,12 @@ export default function SimpleLeaderboardPosition({ person }: SimpleLeaderboardP
           )}
         </ItemDescription>
       </ItemContent>
-      <ItemActions>${person.total_value}</ItemActions>
+      <ItemActions>
+        {person.total_value.toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+        })}
+      </ItemActions>
     </Item>
   );
 }

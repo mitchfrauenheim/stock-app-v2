@@ -86,13 +86,13 @@ async function fetchLiveLeaderboard(): Promise<LeaderboardEntry[]> {
 
     leaderboard.push({
       name: user.name,
-      total_value: (totalStockValue + cashBalance).toFixed(2),
+      total_value: totalStockValue + cashBalance,
       cash_balance: cashBalance.toFixed(2),
       stocks: stockSymbols.sort(),
     });
   }
 
-  return leaderboard.sort((a, b) => parseFloat(b.total_value) - parseFloat(a.total_value));
+  return leaderboard.sort((a, b) => b.total_value - a.total_value);
 }
 
 function formatDate(dateStr: string): string {
@@ -122,6 +122,7 @@ export async function fetchSnapshotsChartData(): Promise<SnapshotsChartDataPoint
     JOIN users u ON ps.user_id = u.id
     ORDER BY ps.snapshot_date, u.name
   `;
+  console.log(snapshots);
 
   const dataByDate: { [date: string]: SnapshotsChartDataPoint } = {};
 

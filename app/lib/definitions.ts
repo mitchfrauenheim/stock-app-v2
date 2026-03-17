@@ -117,7 +117,7 @@ export type StockHolding = {
 
 export type LeaderboardEntry = {
   name: string;
-  total_value: string;
+  total_value: number;
   stocks: StockHolding[];
   cash_balance: string;
 };
